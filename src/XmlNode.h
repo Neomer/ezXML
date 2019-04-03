@@ -12,6 +12,7 @@
 #endif
 
 #include "XmlAttribute.h"
+#include "IStringable.h"
 
 namespace ezXml {
 
@@ -20,6 +21,8 @@ namespace ezXml {
  */
 class SHARED XmlNode
 {
+    friend class XmlAttribute;
+
 public:
     using NodeList = std::deque<XmlNode *>;
     using AttributeList = std::deque<XmlAttribute *>;
@@ -43,6 +46,8 @@ public:
     void append(XmlNode *node);
     void insert(NodeList::const_iterator before, XmlNode *node);
 
+    void appendAttribute(XmlAttribute *attribute);
+
 #ifdef CXX17
     std::optional<XmlNode *>
 #else
@@ -64,11 +69,29 @@ public:
     size_t where(NodeList &nodes, const char *name) const;
 #endif
 
+    void setText(const IStringable *stringable);
+#ifdef CXX17
+    void setText(std::string_view value);
+#else
+    void setText(const char *value);
+#endif
+
+    void setName(const IStringable *stringable);
+#ifdef CXX17
+    void setName(std::string_view value);
+#else
+    void setName(const char *value);
+#endif
 
 private:
     std::string _name, _text;
     NodeList _children;
     AttributeList _attributes;
+
+private:
+    XmlNode *_parent;
+    void onDestroy(XmlNode *node);
+    void onDestroy(XmlAttribute *attribute);
 };
 
 }

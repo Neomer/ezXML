@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(XmlSample VERSION 1.0.0 DESCRIPTION "ezXML sample app")
+project(XmlSample VERSION 1.0.0 DESCRIPTION "ezXml sample app")
 set(SOURCE_EXE main.cpp)
 add_executable(XmlSample ${SOURCE_EXE})
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/src)
-TARGET_LINK_LIBRARIES(XmlSample ezXML)
+TARGET_LINK_LIBRARIES(XmlSample ezXml)
 
 include_directories("../")
 
@@ -18,6 +18,6 @@ add_custom_command(
     TARGET XmlSample
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-        $<TARGET_FILE:ezXML>
-        $<TARGET_FILE_DIR:XmlSample>/$<TARGET_FILE_NAME:ezXML>
+        $<TARGET_FILE:ezXml>
+        $<TARGET_FILE_DIR:XmlSample>/$<TARGET_FILE_NAME:ezXml>
 )

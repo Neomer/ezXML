@@ -10,15 +10,21 @@
 
 namespace ezXml {
 
+class XmlNode;
+
 class SHARED XmlAttribute
 {
+    friend class XmlNode;
+
 public:
 #ifdef CXX17
     XmlAttribute(std::string_view name);
 #else
     XmlAttribute(const char *name);
 #endif
-    ~XmlAttribute() = default;
+    ~XmlAttribute();
+
+    const char *name() const { return _name.c_str(); }
 
     bool hasValue() const
     {
@@ -43,6 +49,7 @@ private:
 #else
     std::string _value;
 #endif
+    XmlNode *_node;
 };
 
 }
