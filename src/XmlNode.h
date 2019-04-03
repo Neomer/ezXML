@@ -15,6 +15,9 @@
 
 namespace ezXml {
 
+/**
+ * @brief
+ */
 class XmlNode
 {
 public:
@@ -29,6 +32,7 @@ public:
 #else
     XmlNode(const std::string &name);
 #endif
+    ~XmlNode();
 
     inline const NodeList &children() const { return _children; }
     inline const AttributeList &attributes() const { return _attributes; }
@@ -46,6 +50,14 @@ public:
     XmlNode *
 #endif
     first(const char *name) const;
+
+    size_t all(NodeList &nodes, std::function<bool(const XmlNode *node)> comparer) const;
+#ifdef CXX17
+    size_t all(NodeList &nodes, std::string_view name) const;
+#else
+    size_t all(NodeList &nodes, const char *name) const;
+#endif
+
 
 private:
     std::string _name, _text;
