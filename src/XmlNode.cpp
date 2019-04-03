@@ -25,6 +25,16 @@ XmlNode::~XmlNode()
     }
 }
 
+void XmlNode::append(XmlNode *node)
+{
+    _children.push_back(node);
+}
+
+void XmlNode::insert(NodeList::const_iterator before, XmlNode *node)
+{
+    _children.insert(before, node);
+}
+
 #ifdef CXX17
 std::optional<XmlNode *>
 #elif
@@ -53,7 +63,7 @@ XmlNode *
     });
 }
 
-size_t XmlNode::all(XmlNode::NodeList &nodes, std::function<bool (const XmlNode *)> comparer) const
+size_t XmlNode::where(XmlNode::NodeList &nodes, std::function<bool (const XmlNode *)> comparer) const
 {
     auto it = std::find_if(_children.begin(), _children.end(), comparer);
     size_t count = 0;
@@ -66,14 +76,14 @@ size_t XmlNode::all(XmlNode::NodeList &nodes, std::function<bool (const XmlNode 
 }
 
 #ifdef CXX17
-size_t XmlNode::all(XmlNode::NodeList &nodes, std::string_view name) const
+size_t XmlNode::where(XmlNode::NodeList &nodes, std::string_view name) const
 {
-    return all(nodes, [name](const XmlNode *node) {
+    return where(nodes, [name](const XmlNode *node) {
         return node->name() == name;
     });
 }
 #else
-size_t XmlNode::all(NodeList &nodes, const char *name) const
+size_t XmlNode::where(NodeList &nodes, const char *name) const
 {
     return all(nodes, [name](const XmlNode *node) {
         return !strcmp(name, node->name());

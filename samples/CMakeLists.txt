@@ -13,3 +13,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set_property(TARGET XmlSample PROPERTY CXX_STANDARD 17)
+
+add_custom_command(
+    TARGET XmlSample
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:ezXML>
+        $<TARGET_FILE_DIR:XmlSample>/$<TARGET_FILE_NAME:ezXML>
+)

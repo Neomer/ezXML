@@ -18,7 +18,7 @@ namespace ezXml {
 /**
  * @brief
  */
-class XmlNode
+class SHARED XmlNode
 {
 public:
     using NodeList = std::deque<XmlNode *>;
@@ -34,8 +34,14 @@ public:
 #endif
     ~XmlNode();
 
+    inline bool anyChild() const { return _children.size(); }
+    inline bool anyAttribute() const { return _attributes.size(); }
+
     inline const NodeList &children() const { return _children; }
     inline const AttributeList &attributes() const { return _attributes; }
+
+    void append(XmlNode *node);
+    void insert(NodeList::const_iterator before, XmlNode *node);
 
 #ifdef CXX17
     std::optional<XmlNode *>
@@ -51,11 +57,11 @@ public:
 #endif
     first(const char *name) const;
 
-    size_t all(NodeList &nodes, std::function<bool(const XmlNode *node)> comparer) const;
+    size_t where(NodeList &nodes, std::function<bool(const XmlNode *node)> comparer) const;
 #ifdef CXX17
-    size_t all(NodeList &nodes, std::string_view name) const;
+    size_t where(NodeList &nodes, std::string_view name) const;
 #else
-    size_t all(NodeList &nodes, const char *name) const;
+    size_t where(NodeList &nodes, const char *name) const;
 #endif
 
 
