@@ -6,7 +6,8 @@ set(SOURCE_LIB
     IStringable.h
     XmlNode.cpp XmlNode.h
     XmlAttribute.cpp XmlAttribute.h
-    XmlDocument.cpp XmlDocument.h)
+    XmlDocument.cpp XmlDocument.h
+    XPath.cpp XPath.h)
 
 add_library(ezXml SHARED ${SOURCE_LIB})
 include_directories("../")
