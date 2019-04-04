@@ -15,13 +15,19 @@ XmlNode::XmlNode(std::string_view name) :
 XmlNode::XmlNode(const std::string &name) :
 #endif
     _name{ name },
-    _parent{ nullptr }
+    _parent{ nullptr },
+    _enableEvents{ true }
 {
 
 }
 
 XmlNode::~XmlNode()
 {
+#ifdef DEBUG_
+    std::cout << "XmlNode::~XmlNode() - " << name() << std::endl;
+#endif
+    _enableEvents = false;
+
     if (_parent != nullptr) {
         _parent->onDestroy(this);
     }
@@ -166,16 +172,20 @@ void XmlNode::setName(const char *value)
 
 void XmlNode::onDestroy(XmlNode *node)
 {
+    if (_enableEvents) {
 #ifdef DEBUG_
-    std::cout << "XmlNode::onDestroy(XmlNode *) - " << node->name() << std::endl;
+        std::cout << "XmlNode::onDestroy(XmlNode *) - " << node->name() << std::endl;
 #endif
-    _children.erase(std::remove(_children.begin(), _children.end(), node));
+        _children.erase(std::remove(_children.begin(), _children.end(), node));
+    }
 }
 
 void XmlNode::onDestroy(XmlAttribute *attribute)
 {
+    if (_enableEvents) {
 #ifdef DEBUG_
-    std::cout << "XmlNode::onDestroy(XmlAttribute *) - " << attribute->name() << std::endl;
+        std::cout << "XmlNode::onDestroy(XmlAttribute *) - " << attribute->name() << std::endl;
 #endif
-    _attributes.erase(std::remove(_attributes.begin(), _attributes.end(), attribute));
+        _attributes.erase(std::remove(_attributes.begin(), _attributes.end(), attribute));
+    }
 }

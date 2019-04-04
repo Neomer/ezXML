@@ -100,6 +100,7 @@ private:
 
 private:
     XmlNode *_parent;
+    bool _enableEvents;
     void onDestroy(XmlNode *node);
     void onDestroy(XmlAttribute *attribute);
 };
