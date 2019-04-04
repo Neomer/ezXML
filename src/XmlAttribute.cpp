@@ -22,3 +22,23 @@ XmlAttribute::~XmlAttribute()
     }
 }
 
+void XmlAttribute::setValue(const IStringable *stringable)
+{
+#ifdef CXX17
+    std::string tmp;
+    stringable->toString(tmp);
+    _value = std::make_optional(tmp);
+#else
+    stringable->toString(_value);
+#endif
+}
+
+#ifdef CXX17
+void XmlAttribute::setValue(std::string_view value)
+#else
+void XmlAttribute::setValue(const char *value)
+#endif
+{
+    _value = value;
+}
+

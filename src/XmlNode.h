@@ -27,7 +27,9 @@ public:
     using NodeList = std::deque<XmlNode *>;
     using AttributeList = std::deque<XmlAttribute *>;
 
+    NODISCARD_
     const char *name() const { return _name.c_str(); }
+    NODISCARD_
     const char *text() const { return _text.c_str(); }
 
 #ifdef CXX17
@@ -37,10 +39,16 @@ public:
 #endif
     ~XmlNode();
 
+    NODISCARD_
     inline bool anyChild() const { return _children.size(); }
+
+    NODISCARD_
     inline bool anyAttribute() const { return _attributes.size(); }
 
+    NODISCARD_
     inline const NodeList &children() const { return _children; }
+
+    NODISCARD_
     inline const AttributeList &attributes() const { return _attributes; }
 
     void append(XmlNode *node);
@@ -48,6 +56,7 @@ public:
 
     void appendAttribute(XmlAttribute *attribute);
 
+    [[nodiscard]]
 #ifdef CXX17
     std::optional<XmlNode *>
 #else
@@ -55,6 +64,7 @@ public:
 #endif
     first(std::function<bool(const XmlNode *node)> comparer) const;
 
+    NODISCARD_
 #ifdef CXX17
     std::optional<XmlNode *>
 #else

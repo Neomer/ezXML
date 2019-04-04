@@ -19,8 +19,10 @@ int main() {
         }
         node.setText("New XML Text");
         node.setName("NewName");
+        ezXml::XmlAttribute attr("some_attribute");
+        node.appendAttribute(&attr);
+        std::cout << attr.value().value() << std::endl;
     }
-    int a = 0;
-    std::cout << a;
+    std::cout << "The end!" << std::endl;
     return 0;
 }

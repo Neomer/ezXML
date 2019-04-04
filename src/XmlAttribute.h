@@ -8,6 +8,8 @@
 #include <optional>
 #endif
 
+#include "IStringable.h"
+
 namespace ezXml {
 
 class XmlNode;
@@ -24,8 +26,10 @@ public:
 #endif
     ~XmlAttribute();
 
+    NODISCARD_
     const char *name() const { return _name.c_str(); }
 
+    NODISCARD_
     bool hasValue() const
     {
 #ifdef CXX17
@@ -35,6 +39,14 @@ public:
 #endif
     }
 
+    void setValue(const IStringable *stringable);
+#ifdef CXX17
+    void setValue(std::string_view value);
+#else
+    void setValue(const char *value);
+#endif
+
+    NODISCARD_
 #ifdef CXX17
     std::optional<const std::string>
 #else
